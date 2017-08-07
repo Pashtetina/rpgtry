@@ -36,7 +36,7 @@ class DB
 	public function connect()
 	{
 		$this->_conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
+		$this->_conn->set_charset('utf8');
 		if ($this->_conn->connect_error) return false;
 		else return true;
 	}
@@ -100,7 +100,6 @@ class DB
 				$query->close();
 			}
 
-
 			return $ret;
 		}
 	}
@@ -118,6 +117,7 @@ class DB
 		else
 			$sql = 'INSERT INTO `' . $table . '` (`' . implode('`, `', array_keys($value)) . '`) VALUES ("' . implode('", "', $value) . '")';
 
+		var_dump($sql);
 		if ($this->_conn->query($sql)) return $this->_conn->insert_id;
 		else return false;
 	}

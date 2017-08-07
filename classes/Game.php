@@ -6,7 +6,7 @@ class Game
 	/**
 	 * @var $players = new Player
 	 */
-	public 	$players = array();
+	public $players = array();
 	private $_db;
 
 
@@ -42,14 +42,13 @@ class Game
 	 */
 	public function players()
 	{
-		$res = $this->_db->select('game_players', 'gameId = '.$this->id);
+		$res = $this->_db->select('game_players', 'gameId = ' . $this->id);
 		if (!empty($res))
 		{
 			foreach ($res as $v)
 				$this->players[] = new Player($v);
 			return $this;
-		}
-		else return false;
+		} else return false;
 	}
 
 
@@ -64,13 +63,13 @@ class Game
 	 */
 	public function isEventable()
 	{
-
-		if (count($this->players) >= 2)
+		$i = 0;
+		foreach ($this->players as $player)
 		{
-			foreach ($this->players as $player)
-			{
-				if ($player->isDead());
-			}
+			if (!$player->isDead()) $i++;
 		}
+
+		return $i >= 2;
 	}
+
 }
