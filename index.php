@@ -34,8 +34,6 @@ spl_autoload_register(function ($class)
 			<?
 			$game = new Game();
 			$game->find(1);
-			$game->players();
-
 			$game->event();
 
 			?>

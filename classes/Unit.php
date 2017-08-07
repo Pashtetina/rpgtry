@@ -37,15 +37,21 @@ class Unit
 	}
 
 
+	/**
+	 * @param Player $player
+	 * @return int
+	 */
 	public function attack(Player $player)
 	{
 		$totalDmg = $this->potentialDamage() - $player->potentialDefense();
 
 		if($totalDmg < 0) $totalDmg = 0;
 
-		$player->takeDamage($player->hp - $totalDmg);
+		$ret = $player->takeDamage($player->hp - $totalDmg);
 
 		Log::Combat($this, $player, $totalDmg);
+
+		return $ret;
 	}
 
 

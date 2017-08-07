@@ -17,7 +17,7 @@ class Item
 	}
 
 
-	public static function GetRandom()
+	public static function RandomInstance()
 	{
 		$res = DB::Instance()->select('items');
 
@@ -28,7 +28,7 @@ class Item
 			if (!empty($item))
 			{
 				return new self($item);
-			}
+			} else return false;
 		}
 		else return false;
 
