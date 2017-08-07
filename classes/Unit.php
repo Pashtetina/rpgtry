@@ -7,6 +7,7 @@ class Unit
 		$id,
 		$maxHp,
 		$baseDamage = 10,
+		$baseDefense = 5,
 		$name,
 		$items = array();
 
@@ -17,9 +18,57 @@ class Unit
 	}
 
 
-	public function doDamage()
+	public function receiveItem(Item $item)
 	{
+		DB::Instance()->insert('players_items', ['itemId' => $item->id, 'gameId' => 1, 'playerId' => $this->id]);
+	}
 
+
+	public function potentialDamage()
+	{
+		$attack = $this->baseDamage;
+
+		foreach ($this->items as $item)
+		{
+			$attack = $attack+$item->attack;
+		}
+
+		return $attack;
+	}
+
+
+	public function attack(Player $player)
+	{
+		$totalDmg = $this->potentialDamage() - $player->potentialDefense();
+
+		if($totalDmg < 0) $totalDmg = 0;
+
+		$player->takeDamage($player->hp - $totalDmg);
+
+		Log::Combat($this, $player, $totalDmg);
+	}
+
+
+	public function potentialDefense()
+	{
+		$defense = $this->baseDefense;
+
+		foreach ($this->items as $item)
+		{
+			$defense = $defense+$item->defense;
+		}
+
+		return $defense;
+	}
+
+
+	public function takeDamage($amount)
+	{
+		$this->hp = $amount;
+		if ($this->hp < 0) $this->hp = 0;
+
+		DB::Instance()->update('game_players', ['hp' => $this->hp], '`id` = '.$this->id);
+		return $this->hp;
 	}
 
 

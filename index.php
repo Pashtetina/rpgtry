@@ -36,37 +36,14 @@ spl_autoload_register(function ($class)
 			$game->find(1);
 			$game->players();
 
+			$game->event();
+
 			?>
-			<pre>
-				<?var_dump($game);?>
-			</pre>
+
 			<p><a href="http://pashtet.top/items/items-list.php">список вещей</a></p>
-			<form action="index.php" method="POST">
-				<? for ($i = 0; $i < 4; $i++): ?>
-					<div class="form-group">
-						<label for="">Item <?= $i ?></label>
-						<input type="text" class="form-control" name="<?= $i ?>[title]" placeholder="title">
-						<input maxlength="2" type="number" class="form-control" name="<?= $i ?>[atk]" placeholder="atk">
-						<input maxlength="2" type="number" class="form-control" name="<?= $i ?>[def]" placeholder="def">
-					</div>
-				<? endfor; ?>
-				<input type="submit">
-			</form>
 		</div>
 	</div>
 </div>
 </body>
 </html>
-<? if (!empty($_POST))
-{
-	foreach ($_POST as $item)
-	{
-		if (!empty($item['title']))
-		{
-			DB::Instance()->insert('items', ['title' => $item['title'], 'attack' => $item['atk'], 'defense' => $item['def']]);
-		}
-		unset($item);
-	}
-}
-?>
 
