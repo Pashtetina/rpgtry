@@ -117,7 +117,7 @@ class DB
 		else
 			$sql = 'INSERT INTO `' . $table . '` (`' . implode('`, `', array_keys($value)) . '`) VALUES ("' . implode('", "', $value) . '")';
 
-		var_dump($sql);
+
 		if ($this->_conn->query($sql)) return $this->_conn->insert_id;
 		else return false;
 	}

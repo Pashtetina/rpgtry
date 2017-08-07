@@ -5,6 +5,7 @@ class Item
 {
 	public $attack,
 		$defense,
+		$id,
 		$name;
 
 	public function __construct($item)
@@ -12,6 +13,7 @@ class Item
 		$this->attack = $item->attack;
 		$this->defense = $item->defense;
 		$this->name = $item->title;
+		$this->id = $item->id;
 	}
 
 

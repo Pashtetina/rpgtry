@@ -30,7 +30,7 @@ spl_autoload_register(function ($class)
 <body>
 <div class="container">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<?
 			$game = new Game();
 			$game->find(1);

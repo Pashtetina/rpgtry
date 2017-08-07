@@ -41,7 +41,13 @@ class Game
 
 	public function event_loot()
 	{
-		var_dump('loot');
+		$finder = $this->players[mt_rand(0, count($this->players) - 1)];
+
+		$item = Item::GetRandom();
+
+		DB::Instance()->insert('players_items', ['itemId' => $item->id, 'gameId' => 1, 'playerId' => $finder->id]);
+
+		Log::Loot($item, $finder);
 	}
 
 
