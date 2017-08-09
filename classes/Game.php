@@ -2,6 +2,9 @@
 
 class Game
 {
+	/**
+	 * @TODO id не нужен, вместо него чат айди
+	 */
 	public $id;
 	/**
 	 * @var $players = new Player
@@ -77,7 +80,7 @@ class Game
 	{
 		$this->_db = DB::Instance();
 		$this->config = require_once('config/game.php');
-		$this->prepare();
+		$this->_prepare();
 	}
 
 
@@ -103,7 +106,7 @@ class Game
 	/**
 	 * @return $this|bool
 	 */
-	private function prepare()
+	private function _prepare()
 	{
 		$this->_clear();
 		$res = $this->_db->select('game_players', '`gameId` = ' . $this->id . ' and `hp` > 0');
@@ -123,12 +126,15 @@ class Game
 			if ($player->hp > 0) $res[] = $player;
 
 		if (count($res) == 1)
-			$this->_clear();
+		return $this->_clear();
+		else return false;
 	}
 
 
 	private function _clear()
 	{
+		return $this->_db->delete('players_items', '`gameId` = '.$this->id) &&
+			$this->_db->update('game_players', ['hp' => 100], '`gameId` = '.$this->id);
 
 	}
 

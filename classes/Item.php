@@ -23,8 +23,7 @@ class Item
 
 		if (!empty($res))
 		{
-			$rnd = mt_rand(0, count($res) - 1);
-			$item = $res[$rnd];
+			$item = $res[mt_rand(0, count($res) - 1)];
 			if (!empty($item))
 			{
 				return new self($item);
