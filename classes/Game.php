@@ -14,18 +14,25 @@ class Game
 	private $_db;
 
 
+	public function addPlayer()
+	{
+		
+	}
+
+
 	/**
 	 * ход
 	 */
 	public function event()
 	{
+
 		if ($this->_isEventable())
 		{
 			$event = $this->config['events'][array_rand($this->config['events'])];
 			$m = 'event_' . $event;
 			$this->$m();
 			$this->_isEnd();
-		} else var_dump('need more players');
+		} else echo 'Ты аутист, в одиночку тут нельзя.';
 	}
 
 
@@ -40,8 +47,7 @@ class Game
 			$target = $this->_randomPlayer();
 		} while ($initiator == $target);
 
-		$a = $this->players[$initiator];
-		$a->attack($this->players[$target]);
+		$initiator->attack($target);
 	}
 
 
@@ -66,11 +72,13 @@ class Game
 	 */
 	public function find($chatId)
 	{
+
 		$res = $this->_db->select('games', '`chatId`=' . $chatId);
 
 		if (!empty($res) && $res[0]->id != 0)
 		{
-			$this->id = $res[0]->id;
+			$this->id = $res[0]->chatId;
+			$this->_prepare();
 			return $this->id;
 		} else return 0;
 	}
@@ -79,8 +87,9 @@ class Game
 	public function __construct()
 	{
 		$this->_db = DB::Instance();
+		$this->logger = new Log();
 		$this->config = require_once('config/game.php');
-		$this->_prepare();
+
 	}
 
 
@@ -92,7 +101,9 @@ class Game
 		$i = 0;
 
 		foreach ($this->players as $player)
+		{
 			if (!$player->isDead()) $i++;
+		}
 
 		return $i >= 2;
 	}

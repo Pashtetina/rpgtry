@@ -17,4 +17,9 @@ class Log
 		echo "$player->name находит шмотку! Еб твою мать, это же <em>$item->name</em>. Теперь врагам точно пиздец.";
 		echo "</p>";
 	}
+
+	public static function StoreLog($gameId, $logText)
+	{
+
+	}
 }

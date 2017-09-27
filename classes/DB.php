@@ -81,7 +81,6 @@ class DB
 		if ($where)
 			$sql .= " WHERE $where";
 
-
 		if ($query = $this->_conn->query($sql))
 		{
 			if ($numRows)
